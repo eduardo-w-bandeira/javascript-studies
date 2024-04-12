@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap">
+</head>
+
+<body>
+    <div class="container" id="new-task-div">
+        <h1>To-Do List</h1>
+        <label for="new-task-input" id="task-title-label">Enter the task title:</label>
+        <input type="text" placeholder="For example: Buy bread at the grocery store"
+            id="new-task-input">
+        <button id="add-new-task-button">Add Task</button>
+    </div>
+    <div id="tasks-div">
+        <div class="container task" style="display: none;">
+            <p class="task-p"></p>
+            <hr />
+            <button class="up-or-down up-button">⬆️</button><button class="up-or-down down-button">⬇️</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
