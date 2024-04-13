@@ -11,16 +11,17 @@
 </head>
 
 <body>
-    <div class="container" id="new-task-div">
+    <div class="container" id="add-task-div">
         <h1>To-Do List</h1>
-        <label for="new-task-input" id="task-title-label">Enter the task title:</label>
+        <label for="add-task-input">Enter the task title:</label>
         <input type="text" placeholder="For example: Buy bread at the grocery store"
-            id="new-task-input">
-        <button id="add-new-task-button">Add Task</button>
+            id="add-task-input">
+        <button id="add-task-button">Add Task</button>
     </div>
     <div id="tasks-div">
         <div class="container task" style="display: none;">
-            <p class="task-p"></p>
+            <input type="checkbox" id="task-checkbox">
+            <label for="task-checkbox" id="task-label"></label>
             <hr />
             <button class="up-or-down up-button">⬆️</button><button class="up-or-down down-button">⬇️</button>
         </div>

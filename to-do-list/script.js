@@ -1,12 +1,21 @@
 var latest_task_num = 0;
 
-function move_task(button) {
-    return
+function move_task(task_div, up) {
+    let parent_div = task_div.parentNode;
+    let sibling_div
+    if (up) {
+        sibling_div = task_div.previousSibling;
+        parent_div.insertBefore(task_div, sibling_div);
+    } else {
+        sibling_div = task_div.nextSibling;
+        parent_div.insertBefore(sibling_div, task_div);
+    };
+    process_button_activation();
 }
 
 function process_button_activation() {
     const task_divs = document.getElementsByClassName("task");
-    for (let index=0; index < task_divs.length; index++) {
+    for (let index = 0; index < task_divs.length; index++) {
         div = task_divs[index]
         let up_button = div.getElementsByClassName("up-button")[0];
         let down_button = div.getElementsByClassName("down-button")[0];
@@ -21,9 +30,10 @@ function process_button_activation() {
     };
 };
 
+
 function add_task() {
-    const new_task_input = document.getElementById("new-task-input");
-    if (!new_task_input.value) {
+    const add_task_input = document.getElementById("add-task-input");
+    if (!add_task_input.value) {
         window.alert("No task title added");
         return false;
     }
@@ -38,20 +48,34 @@ function add_task() {
         original_div.parentNode.insertBefore(task_div, original_div.nextSibling);
     }
     latest_task_num++;
-    // Assign ids
+    // Assign id and "click" event
     task_div.id = `task-idem-div-${latest_task_num}`;
-    task_div.getElementsByClassName("up-button")[0].id = `up-button-${latest_task_num}`;
-    task_div.getElementsByClassName("down-button")[0].id = `down-button-${latest_task_num}`;
-    //
+    const up_button = task_div.getElementsByClassName("up-button")[0];
+    up_button.addEventListener("click", () => {
+        move_task(task_div, true)
+    });
+    const down_button = task_div.getElementsByClassName("down-button")[0];
+    down_button.addEventListener("click", () => {
+        move_task(task_div, false)
+    });
     task_div.style.display = 'block'; // Make the container visible
-    const task_p = document.getElementsByClassName("task-p")[0];
-    task_p.innerText = new_task_input.value;
-    new_task_input.value = null;
+    const task_label = document.getElementById("task-label");
+    task_label.textContent = add_task_input.value;
+    add_task_input.value = null;
     process_button_activation();
     return true;
 }
 
+function set_events() {
+    let add_task_button = document.getElementById("add-task-button");
+    add_task_button.addEventListener("click", add_task);
+    document.getElementById("add-task-input").addEventListener("keypress", function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            add_task_button.click();
+        };
+    });
+};
 
-
-document.getElementById("add-new-task-button").addEventListener("click", add_task);
+set_events()
 
