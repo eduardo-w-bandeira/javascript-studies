@@ -45,7 +45,7 @@ function add_task(task_num = null, task_text = null) {
     }
     // Clone the hidden template div
     let task_div = TEMPLATE_DIV.cloneNode(true);
-    let current_task_num = task_num ? task_num : latest_task_num+1;
+    let current_task_num = task_num ? task_num : latest_task_num + 1;
     latest_task_num = current_task_num;
     task_div.id = `task-idem-div-${current_task_num}`;
     const task_checkbox = task_div.querySelector("input");
@@ -95,7 +95,7 @@ function restore_local_storage() {
 
 function set_events() {
     let add_task_button = document.getElementById("add-task-button");
-    add_task_button.addEventListener("click", () => {add_task()});
+    add_task_button.addEventListener("click", () => { add_task() });
     document.getElementById("add-task-input").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();

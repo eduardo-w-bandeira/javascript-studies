@@ -76,6 +76,6 @@ h1 {
 }
 
 /* Used in JS */
-.strikethrough { 
+.strikethrough {
     text-decoration: line-through;
-  }
+}
