@@ -31,34 +31,41 @@ function process_button_activation() {
     };
 };
 
-function add_task() {
+
+function save_to_local_storage(task_num, task_text) {
+    localStorage.setItem(String(task_num), task_text);
+};
+
+
+function add_task(task_num = null, task_text = null) {
     const add_task_input = document.getElementById("add-task-input");
-    if (!add_task_input.value) {
+    if (!add_task_input.value && !task_num) {
         window.alert("No task title added");
         return false;
     }
-    // Clone the first div
+    // Clone the hidden template div
     let task_div = TEMPLATE_DIV.cloneNode(true);
-    // Insert the cloned div after the first div
-    TEMPLATE_DIV.parentNode.insertAdjacentElement('afterend', task_div);
-    latest_task_num++;
-    task_div.id = `task-idem-div-${latest_task_num}`;
+    let current_task_num = task_num ? task_num : latest_task_num+1;
+    latest_task_num = current_task_num;
+    task_div.id = `task-idem-div-${current_task_num}`;
     const task_checkbox = task_div.querySelector("input");
     const task_label = task_div.querySelector("label");
     const remove_button = task_div.getElementsByClassName("remove-button")[0];
     const up_button = task_div.getElementsByClassName("up-button")[0];
     const down_button = task_div.getElementsByClassName("down-button")[0];
-    task_checkbox.id = `task-checkbox${latest_task_num}`;
+    task_checkbox.id = `task-checkbox${current_task_num}`;
     task_label.setAttribute('for', task_checkbox.id);
-    task_label.classList.remove('strikethrough');
-    remove_button.addEventListener("click", () => {task_div.remove()});
-    task_checkbox.addEventListener('change', function() {
+    remove_button.addEventListener("click", () => {
+        localStorage.removeItem(String(current_task_num))
+        task_div.remove()
+    });
+    task_checkbox.addEventListener('change', function () {
         if (this.checked) {
-          task_label.classList.add('strikethrough');
+            task_label.classList.add('strikethrough');
         } else {
-          task_label.classList.remove('strikethrough');
+            task_label.classList.remove('strikethrough');
         }
-      });
+    });
     up_button.addEventListener("click", () => {
         move_task(task_div, true)
     });
@@ -66,16 +73,29 @@ function add_task() {
         move_task(task_div, false)
     });
     task_div.style.display = 'block'; // Make the container visible
-    task_label.textContent = add_task_input.value;
+    task_label.textContent = task_text ? task_text : add_task_input.value;
+    TEMPLATE_DIV.parentNode.insertAdjacentElement('afterend', task_div);
     add_task_input.value = null;
-    task_checkbox.checked = false;
     process_button_activation();
+    if (!task_num) {
+        save_to_local_storage(current_task_num, task_label.textContent);
+    }
     return true;
 }
 
+function restore_local_storage() {
+    const keys = Object.keys(localStorage);
+    for (const key of keys) {
+        const task_num = parseInt(key);
+        const task_text = localStorage.getItem(key);
+        add_task(task_num, task_text);
+    };
+};
+
+
 function set_events() {
     let add_task_button = document.getElementById("add-task-button");
-    add_task_button.addEventListener("click", add_task);
+    add_task_button.addEventListener("click", () => {add_task()});
     document.getElementById("add-task-input").addEventListener("keypress", function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -84,5 +104,8 @@ function set_events() {
     });
 };
 
+
+
 set_events()
+restore_local_storage()
 
