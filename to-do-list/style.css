@@ -69,3 +69,13 @@ h1 {
     text-decoration: none;
     cursor: pointer;
 }
+
+.remove-button {
+    font-size: 17px;
+    cursor: pointer;
+}
+
+/* Used in JS */
+.strikethrough { 
+    text-decoration: line-through;
+  }
